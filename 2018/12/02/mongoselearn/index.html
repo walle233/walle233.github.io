@@ -438,6 +438,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -661,6 +668,41 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitment({
+            id: window.location.pathname,
+            owner: 'walle233',
+            repo: 'walle233.github.io',
+            
+            oauth: {
+            
+            
+                client_secret: 'b2d923beb3f36307bc624ba7daed023f8f39ee30',
+            
+                client_id: 'd7f9aad17bcf0f88dcc0'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 
