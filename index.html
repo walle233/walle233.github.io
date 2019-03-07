@@ -335,6 +335,696 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/promise/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="walle233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoqixing">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/promise/" class="post-title-link" itemprop="http://yoursite.com/index.html">实现一个promise</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-07 23:27:30 / 修改时间：23:30:41" itemprop="dateCreated datePublished" datetime="2019-03-07T23:27:30+08:00">2019-03-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="promise-class实现"><a href="#promise-class实现" class="headerlink" title="promise class实现"></a>promise class实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line">// 判断变量否为function</span><br><span class="line">const isFunction = variable =&gt; typeof variable === &apos;function&apos;</span><br><span class="line">// 定义Promise的三种状态常量</span><br><span class="line">const PENDING = &apos;PENDING&apos;</span><br><span class="line">const FULFILLED = &apos;FULFILLED&apos;</span><br><span class="line">const REJECTED = &apos;REJECTED&apos;</span><br><span class="line"></span><br><span class="line">class MyPromise &#123;</span><br><span class="line">  constructor (handle) &#123;</span><br><span class="line">    if (!isFunction(handle)) &#123;</span><br><span class="line">      throw new Error(&apos;MyPromise must accept a function as a parameter&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    // 添加状态</span><br><span class="line">    this._status = PENDING</span><br><span class="line">    // 添加状态</span><br><span class="line">    this._value = undefined</span><br><span class="line">    // 添加成功回调函数队列</span><br><span class="line">    this._fulfilledQueues = []</span><br><span class="line">    // 添加失败回调函数队列</span><br><span class="line">    this._rejectedQueues = []</span><br><span class="line">    // 执行handle</span><br><span class="line">    try &#123;</span><br><span class="line">      handle(this._resolve.bind(this), this._reject.bind(this)) </span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">      this._reject(err)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加resovle时执行的函数</span><br><span class="line">  _resolve (val) &#123;</span><br><span class="line">    const run = () =&gt; &#123;</span><br><span class="line">      if (this._status !== PENDING) return</span><br><span class="line">      // 依次执行成功队列中的函数，并清空队列</span><br><span class="line">      const runFulfilled = (value) =&gt; &#123;</span><br><span class="line">        let cb;</span><br><span class="line">        while (cb = this._fulfilledQueues.shift()) &#123;</span><br><span class="line">          cb(value)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      // 依次执行失败队列中的函数，并清空队列</span><br><span class="line">      const runRejected = (error) =&gt; &#123;</span><br><span class="line">        let cb;</span><br><span class="line">        while (cb = this._rejectedQueues.shift()) &#123;</span><br><span class="line">          cb(error)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      /* 如果resolve的参数为Promise对象，则必须等待该Promise对象状态改变后,</span><br><span class="line">        当前Promsie的状态才会改变，且状态取决于参数Promsie对象的状态</span><br><span class="line">      */</span><br><span class="line">      if (val instanceof MyPromise) &#123;</span><br><span class="line">        val.then(value =&gt; &#123;</span><br><span class="line">          this._value = value</span><br><span class="line">          this._status = FULFILLED</span><br><span class="line">          runFulfilled(value)</span><br><span class="line">        &#125;, err =&gt; &#123;</span><br><span class="line">          this._value = err</span><br><span class="line">          this._status = REJECTED</span><br><span class="line">          runRejected(err)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        this._value = val</span><br><span class="line">        this._status = FULFILLED</span><br><span class="line">        runFulfilled(val)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 为了支持同步的Promise，这里采用异步调用</span><br><span class="line">    setTimeout(run, 0)</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加reject时执行的函数</span><br><span class="line">  _reject (err) &#123; </span><br><span class="line">    if (this._status !== PENDING) return</span><br><span class="line">    // 依次执行失败队列中的函数，并清空队列</span><br><span class="line">    const run = () =&gt; &#123;</span><br><span class="line">      this._status = REJECTED</span><br><span class="line">      this._value = err</span><br><span class="line">      let cb;</span><br><span class="line">      while (cb = this._rejectedQueues.shift()) &#123;</span><br><span class="line">        cb(err)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 为了支持同步的Promise，这里采用异步调用</span><br><span class="line">    setTimeout(run, 0)</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加then方法</span><br><span class="line">  then (onFulfilled, onRejected) &#123;</span><br><span class="line">    const &#123; _value, _status &#125; = this</span><br><span class="line">    // 返回一个新的Promise对象</span><br><span class="line">    return new MyPromise((onFulfilledNext, onRejectedNext) =&gt; &#123;</span><br><span class="line">      // 封装一个成功时执行的函数</span><br><span class="line">      let fulfilled = value =&gt; &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">          if (!isFunction(onFulfilled)) &#123;</span><br><span class="line">            onFulfilledNext(value)</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            let res =  onFulfilled(value);</span><br><span class="line">            if (res instanceof MyPromise) &#123;</span><br><span class="line">              // 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调</span><br><span class="line">              res.then(onFulfilledNext, onRejectedNext)</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">              //否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数</span><br><span class="line">              onFulfilledNext(res)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; catch (err) &#123;</span><br><span class="line">          // 如果函数执行出错，新的Promise对象的状态为失败</span><br><span class="line">          onRejectedNext(err)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      // 封装一个失败时执行的函数</span><br><span class="line">      let rejected = error =&gt; &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">          if (!isFunction(onRejected)) &#123;</span><br><span class="line">            onRejectedNext(error)</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              let res = onRejected(error);</span><br><span class="line">              if (res instanceof MyPromise) &#123;</span><br><span class="line">                // 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调</span><br><span class="line">                res.then(onFulfilledNext, onRejectedNext)</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                //否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数</span><br><span class="line">                onFulfilledNext(res)</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; catch (err) &#123;</span><br><span class="line">          // 如果函数执行出错，新的Promise对象的状态为失败</span><br><span class="line">          onRejectedNext(err)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      switch (_status) &#123;</span><br><span class="line">        // 当状态为pending时，将then方法回调函数加入执行队列等待执行</span><br><span class="line">        case PENDING:</span><br><span class="line">          this._fulfilledQueues.push(fulfilled)</span><br><span class="line">          this._rejectedQueues.push(rejected)</span><br><span class="line">          break</span><br><span class="line">        // 当状态已经改变时，立即执行对应的回调函数</span><br><span class="line">        case FULFILLED:</span><br><span class="line">          fulfilled(_value)</span><br><span class="line">          break</span><br><span class="line">        case REJECTED:</span><br><span class="line">          rejected(_value)</span><br><span class="line">          break</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加catch方法</span><br><span class="line">  catch (onRejected) &#123;</span><br><span class="line">    return this.then(undefined, onRejected)</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加静态resolve方法</span><br><span class="line">  static resolve (value) &#123;</span><br><span class="line">    // 如果参数是MyPromise实例，直接返回这个实例</span><br><span class="line">    if (value instanceof MyPromise) return value</span><br><span class="line">    return new MyPromise(resolve =&gt; resolve(value))</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加静态reject方法</span><br><span class="line">  static reject (value) &#123;</span><br><span class="line">    return new MyPromise((resolve ,reject) =&gt; reject(value))</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加静态all方法</span><br><span class="line">  static all (list) &#123;</span><br><span class="line">    return new MyPromise((resolve, reject) =&gt; &#123;</span><br><span class="line">      /**</span><br><span class="line">       * 返回值的集合</span><br><span class="line">       */</span><br><span class="line">      let values = []</span><br><span class="line">      let count = 0</span><br><span class="line">      for (let [i, p] of list.entries()) &#123;</span><br><span class="line">        // 数组参数如果不是MyPromise实例，先调用MyPromise.resolve</span><br><span class="line">        this.resolve(p).then(res =&gt; &#123;</span><br><span class="line">          values[i] = res</span><br><span class="line">          count++</span><br><span class="line">          // 所有状态都变成fulfilled时返回的MyPromise状态就变成fulfilled</span><br><span class="line">          if (count === list.length) resolve(values)</span><br><span class="line">        &#125;, err =&gt; &#123;</span><br><span class="line">          // 有一个被rejected时返回的MyPromise状态就变成rejected</span><br><span class="line">          reject(err)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  // 添加静态race方法</span><br><span class="line">  static race (list) &#123;</span><br><span class="line">    return new MyPromise((resolve, reject) =&gt; &#123;</span><br><span class="line">      for (let p of list) &#123;</span><br><span class="line">        // 只要有一个实例率先改变状态，新的MyPromise的状态就跟着改变</span><br><span class="line">        this.resolve(p).then(res =&gt; &#123;</span><br><span class="line">          resolve(res)</span><br><span class="line">        &#125;, err =&gt; &#123;</span><br><span class="line">          reject(err)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  finally (cb) &#123;</span><br><span class="line">    return this.then(</span><br><span class="line">      value  =&gt; MyPromise.resolve(cb()).then(() =&gt; value),</span><br><span class="line">      reason =&gt; MyPromise.resolve(cb()).then(() =&gt; &#123; throw reason &#125;)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/flexbox-grid/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="walle233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoqixing">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/flexbox-grid/" class="post-title-link" itemprop="http://yoursite.com/index.html">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 19:56:04" itemprop="dateCreated datePublished" datetime="2018-12-28T19:56:04+08:00">2018-12-28</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ci-cd/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="walle233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoqixing">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/ci-cd/" class="post-title-link" itemprop="http://yoursite.com/index.html">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 19:55:48" itemprop="dateCreated datePublished" datetime="2018-12-28T19:55:48+08:00">2018-12-28</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/gitflow/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="walle233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoqixing">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/gitflow/" class="post-title-link" itemprop="http://yoursite.com/index.html">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 19:55:36" itemprop="dateCreated datePublished" datetime="2018-12-28T19:55:36+08:00">2018-12-28</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/canvas/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="walle233">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoqixing">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/canvas/" class="post-title-link" itemprop="http://yoursite.com/index.html">canvas 小记</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-15 20:05:32" itemprop="dateCreated datePublished" datetime="2018-12-15T20:05:32+08:00">2018-12-15</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="小记"><a href="#小记" class="headerlink" title="小记"></a>小记</h3>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/docker/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -380,13 +1070,9 @@
                 
               
 
-              <time title="创建时间：2018-12-04 09:56:33 / 修改时间：20:33:07" itemprop="dateCreated datePublished" datetime="2018-12-04T09:56:33+08:00">2018-12-04</time>
+              <time title="创建时间：2018-12-04 20:33:07" itemprop="dateCreated datePublished" datetime="2018-12-04T20:33:07+08:00">2018-12-04</time>
             
 
-            
-              
-
-              
             
           </span>
 
@@ -819,7 +1505,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -862,7 +1548,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
